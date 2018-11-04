@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Router, Route, BrowserRouter, Link } from 'react-router-dom';
 import './App.css';
+import logo from './logo.svg';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { withStyles } from '@material-ui/core/styles';
+import theme from './Components/theme/theme';
+import Dashboard from './Components/Dashboard/Dashboard';
+import Main from './Components/Main/Main'
+import Monitor from './Components/Monitor/Monitor';
+
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+});
 
 class App extends Component {
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <BrowserRouter>
+        <MuiThemeProvider theme={theme}>
+          <Main>
+            <Route path="/" component={Dashboard} exact />
+            <Route path="/:place" component={Monitor}/>
+          </Main>
+        </MuiThemeProvider>
+      </BrowserRouter>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
